@@ -1,0 +1,55 @@
+<form *ngIf="user" [formGroup]="pictureForm" class="post-form">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <img [src]="user.photoURL" class="avatar" />
+      </div>
+      <mat-card-title>Post a cute Kitty 😻</mat-card-title>
+      <mat-card-subtitle>{{ user.displayName }}</mat-card-subtitle>
+    </mat-card-header>
+    <img
+      *ngIf="kittyImagePreview"
+      [src]="kittyImagePreview"
+      alt="Cute Kitty Picture"
+      class="preview-image"
+    />
+    <mat-progress-bar *ngIf="submitted" [value]="uploadProgress$ | async" mode="determinate">
+    </mat-progress-bar>
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Photo of your cute Kitty</mat-label>
+        <ngx-mat-file-input formControlName="photo" placeholder="Basic outline placeholder">
+        </ngx-mat-file-input>
+        <mat-icon matSuffix>folder</mat-icon>
+        <mat-error *ngIf="pictureForm.controls['photo'].hasError('required')">
+          Please select a cute Kitty Image 🐱
+        </mat-error>
+        <mat-error *ngIf="pictureForm.controls['photo'].hasError('image')">
+          That doesn't look like a Kitty Image to me 😿
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Describe your Kitty</mat-label>
+        <textarea
+          formControlName="description"
+          matInput
+          placeholder="Describe your cute Kitty to us 😻"
+        >
+        </textarea>
+        <mat-error *ngIf="pictureForm.controls['description'].hasError('required')">
+          You <strong>SHOULD</strong> describe your Kitty 😿
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        (click)="postKitty()"
+        [disabled]="pictureForm.invalid || submitted"
+        color="primary"
+        mat-raised-button
+      >
+        Post Kitty
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
